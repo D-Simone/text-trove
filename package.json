@@ -1,0 +1,31 @@
+{
+  "name": "text-trove",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D-Simone/text-trove.git"
+  },
+  "keywords": [
+    "\u0016text",
+    "templates",
+    "canned",
+    "responses",
+    "helpdesk",
+    "ticketing",
+    "productivity"
+  ],
+  "author": "Manuel De Simone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/D-Simone/text-trove/issues"
+  },
+  "homepage": "https://github.com/D-Simone/text-trove#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

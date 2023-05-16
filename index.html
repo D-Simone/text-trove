@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Trove</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Text Trove</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Text Templates</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populate the table rows dynamically with JavaScript -->
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Create New Template</h2>
+      <form id="templateForm">
+        <label for="templateTitle">Title:</label>
+        <input type="text" id="templateTitle" required>
+
+        <label for="templateContent">Content:</label>
+        <textarea id="templateContent" required></textarea>
+
+        <button type="submit">Save Template</button>
+      </form>
+    </section>
+
+    <section>
+        <h2>Template Actions</h2>
+        <button id="setToDefaultButton">Set to Default</button>
+      </section>
+  </main>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
