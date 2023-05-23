@@ -1,43 +1,198 @@
-/* Global styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h1, h2 {
-    color: #333;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  table th, table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Additional styles specific to your application */
-  /* Customize and add your own styles as needed */
-  
+  font-family: Montserrat;
+  background: #EEE;
+}
+
+.card {
+  width: 450px;
+  background: #FFF;
+  box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 11px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.search-container input {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  outline: none;
+  font-size: 13px;
+}
+
+.categories {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 0px 20px 20px 20px;
+}
+
+.categories button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 15px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+  border-radius: 20px;
+  font-weight: 600;
+  color: #171718;
+  transition: all 0.6s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.categories button:hover {
+  transform: scale(1.05) translateY(-3px);
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.results hr {
+  width: 100%;
+  height: 1px;
+  border: 0;
+  background-color: #ECECEC;
+}
+
+.results p {
+  padding: 0 20px;
+}
+
+p.label {
+  font-weight: bold;
+  line-height: 10px;
+}
+
+.results .entry {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  gap: 12px;
+  padding: 5px 20px;
+  transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.results .entry:hover {
+  background-color: #F5F8FE;
+}
+
+.results .results-list .entry:hover .icon {
+  background-color: #1763fa;
+}
+
+.results .results-list .entry:hover .icon svg path,
+.results .results-list .entry:hover .icon svg circle {
+  stroke: #ffffff;
+}
+
+.results .results-list .entry:hover label {
+  color: #1763fa;
+}
+
+.results .results-list .entry:hover span {
+  color: #7ba0eb;
+}
+
+.results .results-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.results .entry .icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ECECEC;
+  border-radius: 7px;
+  transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.results .entry .desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.results .entry .desc label {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #171718;
+}
+
+.results .entry .desc span {
+  font-weight: bold;
+  line-height: 10px;
+  color: #72767c;
+}
+
+.results .entry .badge {
+  width: 40px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  background: #DDFFDE;
+  border: 1px solid #08581d0e;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #08581D;
+  cursor: pointer;
+}
+
+.card-footer {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-top: 10px;
+  padding: 0 7px;
+  background: #F8F8F8;
+}
+
+.card .action {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.card .action p {
+  padding-left: 5px;
+}
+
+.card-footer button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 0;
+  background: #ECECEC;
+  outline: none;
+}
+
+.edit-actions {
+  width: 100%;
+  text-align: right;
+  padding-right: 10px;
+  opacity: 0.6;
+}

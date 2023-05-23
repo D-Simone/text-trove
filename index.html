@@ -9,47 +9,63 @@
 </head>
 
 <body>
-  <header>
-    <h1>Text Trove</h1>
-  </header>
 
-  <main>
-    <section>
-      <h2>Text Templates</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Populate the table rows dynamically with JavaScript -->
-        </tbody>
-      </table>
-    </section>
+  <main class="card">
 
-    <section>
-      <h2>Create New Template</h2>
-      <form id="templateForm">
-        <label for="templateTitle">Title:</label>
-        <input type="text" id="templateTitle" required>
 
-        <label for="templateContent">Content:</label>
-        <textarea id="templateContent" required></textarea>
+    <div class="search-container">
+      <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M17.5 17.5L22 22">
+        </path>
+        <path stroke-linejoin="round" stroke-width="2" stroke="#171718"
+          d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z">
+        </path>
+      </svg>
+      <input placeholder="Search for a quick action" type="search">
+    </div>
 
-        <button type="submit">Save Template</button>
-      </form>
-    </section>
+    
+      
+        <form id="templateForm" novalidate>
+          <div>
+            <label for="templateTitle">Title:</label>
+            <input type="text" id="templateTitle" required>
+          </div>
+          <div>
+            <label for="templateContent">Content:</label>
+            <textarea id="templateContent" required></textarea>
+          </div>
+          <div class="categories">
+            <button type="submit">Save Template</button>
+            <button id="setToDefaultButton">Set to Default</button>
+            <button id="displayClipboardButton">Display Clipboard</button>
+          </div>
+          
+        </form>
+     
+      
+    </div>
+    <div class="results">
+      <p class="label">Templates</p>
+      <div id="resultsContainer"></div>
 
-    <section>
-        <h2>Template Actions</h2>
-        <button id="setToDefaultButton">Set to Default</button>
-      </section>
+    
+    
+
+    <div class="card-footer">
+       
+    </div>
+
   </main>
+  
+
+
 
   <script src="index.js"></script>
+
+
+
+ 
 </body>
 
 </html>

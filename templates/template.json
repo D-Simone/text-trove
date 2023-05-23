@@ -1,15 +1,18 @@
 [
     {
       "title": "Template 1",
-      "content": "This is the content of Template 1."
+      "content": "This is the content of Template 1.",
+      "default": true
     },
     {
       "title": "Template 2",
-      "content": "This is the content of Template 2."
+      "content": "This is the content of Template 2.",
+      "default": true
     },
     {
       "title": "Template 3",
-      "content": "This is the content of Template 3."
+      "content": "This is the content of Template 3.",
+      "default": true
     }
   ]
   
