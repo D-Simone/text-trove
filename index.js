@@ -1,3 +1,31 @@
+let editorInstance; // Declare a variable to store the editor instance
+
+// Function to initialize the TinyMCE editor
+function initEditor() {
+  const textarea = document.getElementById('templateContent');
+
+  // Destroy the previous instance if it exists
+  if (editorInstance) {
+    editorInstance.destroy();
+  }
+
+  // Initialize the editor
+  tinymce.init({
+    target: textarea,
+    plugins: 'link table code',
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | table | link | code',
+    menubar: false,
+    statusbar: false,
+    width: '100%',
+    height: 300,
+    content_css: 'path/to/content.min.css',
+    placeholder: 'Enter your content here...',
+    setup: function (editor) {
+      editorInstance = editor; // Assign the editor instance to the variable
+    }
+  });
+}
+
 // Function to handle form submission and saving a new template
 function handleFormSubmit(event) {
   event.preventDefault();
@@ -146,46 +174,6 @@ function addDefaultTemplate(template) {
   resultsContainer.appendChild(templateElement);
 }
 
-function handleSetToDefault() {
-  const resultsContainer = document.getElementById('resultsContainer');
-
-  // Get all the custom-made templates (entries with 'custom' class)
-  const customEntries = resultsContainer.getElementsByClassName('custom');
-
-  // Remove the custom-made templates
-  while (customEntries.length > 0) {
-    const entry = customEntries[0];
-    entry.remove();
-  }
-}
-
-// Load existing templates on page load
-document.addEventListener('DOMContentLoaded', () => {
-  // Load templates from the JSON file and populate the results container
-  loadTemplatesFromJSON();
-
-  // Add event listener to the form for template submission
-  const templateForm = document.getElementById('templateForm');
-  templateForm.addEventListener('submit', handleFormSubmit);
-
-  // Add event listener to the "Set to Default" button
-  const setToDefaultButton = document.getElementById('setToDefaultButton');
-  setToDefaultButton.addEventListener('click', handleSetToDefault);
-});
-
-function handleSetToDefault() {
-  const resultsContainer = document.getElementById('resultsContainer');
-
-  // Get all the custom-made templates (entries with 'custom' class)
-  const customEntries = resultsContainer.getElementsByClassName('custom');
-
-  // Remove the custom-made templates
-  while (customEntries.length > 0) {
-    const entry = customEntries[0];
-    entry.remove();
-  }
-}
-
 // Function to display the current clipboard content
 function displayClipboardContent() {
   navigator.clipboard.readText()
@@ -197,6 +185,18 @@ function displayClipboardContent() {
     });
 }
 
-// Add event listener to the "Display Clipboard" button
+document.addEventListener('DOMContentLoaded', () => {
+  // Load templates from the JSON file and populate the results container
+  loadTemplatesFromJSON();
+
+  // Initialize the TinyMCE editor
+  initEditor();
+
+  // Add event listener to the form for template submission
+  const templateForm = document.getElementById('templateForm');
+  templateForm.addEventListener('submit', handleFormSubmit);
+
+  // Add event listener to the "Display Clipboard" button
 const displayClipboardButton = document.getElementById('displayClipboardButton');
 displayClipboardButton.addEventListener('click', displayClipboardContent);
+});
