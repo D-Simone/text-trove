@@ -85,6 +85,12 @@ function saveTemplate(template) {
   const contentSpan = document.createElement('span');
   contentSpan.textContent = sanitizeHTML(template.content);
 
+  // Truncate the text and add an ellipsis after a certain number of characters
+  const maxLength = 210; // Specify the maximum number of characters
+  if (contentSpan.textContent.length > maxLength) {
+    contentSpan.textContent = contentSpan.textContent.slice(0, maxLength) + '...';
+  }
+
   descElement.appendChild(titleLabel);
   descElement.appendChild(contentSpan);
 
@@ -101,6 +107,7 @@ function saveTemplate(template) {
 
   resultsContainer.appendChild(templateElement);
 }
+
 
 // Function to sanitize HTML content
 function sanitizeHTML(html) {
