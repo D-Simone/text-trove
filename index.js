@@ -26,18 +26,17 @@ function initEditor() {
   });
 }
 
-// Function to handle form submission and saving a new template
 function handleFormSubmit(event) {
   event.preventDefault();
 
   // Get the input values from the form
   const titleInput = document.getElementById('templateTitle');
-  const contentInput = document.getElementById('templateContent');
+  const contentInput = editorInstance.getContent(); // Get the content from the TinyMCE editor
 
   // Create a new template object
   const template = {
     title: titleInput.value,
-    content: contentInput.value,
+    content: contentInput,
   };
 
   // Save the template only if both title and content are not empty
@@ -47,7 +46,7 @@ function handleFormSubmit(event) {
 
     // Reset the form inputs
     titleInput.value = '';
-    contentInput.value = '';
+    editorInstance.setContent(''); // Clear the content of the TinyMCE editor
   }
 }
 
@@ -64,14 +63,11 @@ function copyTemplate(content) {
 
 // Function to save the template to the storage
 function saveTemplate(template) {
-  // Add the template to the results container
   const resultsContainer = document.getElementById('resultsContainer');
 
-  // Create the template element
   const templateElement = document.createElement('div');
-  templateElement.classList.add('entry', 'custom'); // Add 'custom' class
+  templateElement.classList.add('entry');
 
-  // Create the icon element
   const iconElement = document.createElement('div');
   iconElement.classList.add('icon');
   iconElement.innerHTML = `<svg fill="none" viewBox="0 0 24 24" height="20" width="20">
@@ -80,7 +76,6 @@ function saveTemplate(template) {
                               <path stroke-linecap="round" stroke-width="2" stroke="#171718" d="M11 6L3 6M7 2V10"></path>
                             </svg>`;
 
-  // Create the description element
   const descElement = document.createElement('div');
   descElement.classList.add('desc');
 
@@ -88,12 +83,11 @@ function saveTemplate(template) {
   titleLabel.textContent = template.title;
 
   const contentSpan = document.createElement('span');
-  contentSpan.textContent = template.content;
+  contentSpan.textContent = sanitizeHTML(template.content);
 
   descElement.appendChild(titleLabel);
   descElement.appendChild(contentSpan);
 
-  // Create the badge button element
   const badgeButton = document.createElement('button');
   badgeButton.classList.add('badge');
   badgeButton.textContent = 'Copy';
@@ -101,19 +95,27 @@ function saveTemplate(template) {
     copyTemplate(template.content);
   });
 
-  // Append the elements to the template element
   templateElement.appendChild(iconElement);
   templateElement.appendChild(descElement);
   templateElement.appendChild(badgeButton);
 
-  // Append the template element to the results container
   resultsContainer.appendChild(templateElement);
 }
+
+// Function to sanitize HTML content
+function sanitizeHTML(html) {
+  const tempElement = document.createElement('div');
+  tempElement.innerHTML = html;
+  return tempElement.textContent || tempElement.innerText || '';
+}
+
+let templatesData = []; // Array to store the original templates data
 
 function loadTemplatesFromJSON() {
   fetch('./templates/template.json')
     .then((response) => response.json())
     .then((data) => {
+      templatesData = data; // Save the original templates data
       data.forEach((template) => {
         if (template.default) {
           // Add the template as a default template
@@ -126,6 +128,32 @@ function loadTemplatesFromJSON() {
     })
     .catch((error) => console.error('Failed to load templates from JSON:', error));
 }
+
+function searchTemplates() {
+  const searchInput = document.getElementById('searchInput');
+  const searchTerm = searchInput.value.toLowerCase();
+
+  // Get all the template elements
+  const templateElements = document.getElementsByClassName('entry');
+
+  // Loop through the template elements and toggle visibility based on the search term
+  Array.from(templateElements).forEach((templateElement) => {
+    const titleLabel = templateElement.querySelector('.desc label');
+    const contentSpan = templateElement.querySelector('.desc span');
+
+    const title = titleLabel.textContent.toLowerCase();
+    const content = contentSpan.textContent.toLowerCase();
+
+    if (title.includes(searchTerm) || content.includes(searchTerm)) {
+      templateElement.style.display = 'grid'; // Show the template element
+    } else {
+      templateElement.style.display = 'none'; // Hide the template element
+    }
+  });
+}
+
+
+
 
 function addDefaultTemplate(template) {
   // Add the template to the results container
@@ -197,6 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
   templateForm.addEventListener('submit', handleFormSubmit);
 
   // Add event listener to the "Display Clipboard" button
-const displayClipboardButton = document.getElementById('displayClipboardButton');
-displayClipboardButton.addEventListener('click', displayClipboardContent);
+  const displayClipboardButton = document.getElementById('displayClipboardButton');
+  displayClipboardButton.addEventListener('click', displayClipboardContent);
+
+  // Add event listener to the search input
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', searchTemplates);
 });
