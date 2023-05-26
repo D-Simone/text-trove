@@ -1,17 +1,17 @@
 [
     {
-      "title": "Template 1",
-      "content": "This is the content of Template 1.",
+      "title": "Updating the Ticket Progress",
+      "content": "Hello [Customer Name], Your issue ([Ticket ID]) is currently being worked on by our [Team Name] team. We will get back to you in [Number of Hours] hours. Thank you for your patience. Thanks, [Agent Name][Company Name]",
       "default": true
     },
     {
-      "title": "Template 2",
-      "content": "This is the content of Template 2.",
+      "title": "Resolving a Ticket",
+      "content": "Hello [Customer Name], Your issue ([Ticket ID]) is resolved. We are closing the ticket now. If there is anything else you need help with, feel free to reply to this email or call us at [Contact Number]. We will be happy to help. Thanks, [Agent Name][Company Name]",
       "default": true
     },
     {
-      "title": "Template 3",
-      "content": "This is the content of Template 3.",
+      "title": "Asking for More Information",
+      "content": "Hello [Customer Name], Thank you for submitting your query ([Ticket ID]). We need your [Data Needed] to proceed with your request. You can update the information by replying to this email or by calling us at [Contact Info]. Once we get this information, we will be able to resolve your query soon. Thanks,[Agent Name][Company Name]",
       "default": true
     }
   ]

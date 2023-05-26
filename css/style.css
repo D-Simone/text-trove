@@ -46,8 +46,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 5px;
-  padding: 0px 20px 20px 20px;
+  gap: 15px;
 }
 
 .categories button {
@@ -55,10 +54,11 @@ input {
   justify-content: center;
   align-items: center;
   padding: 8px 15px;
+  margin: 20px 0px;
   background: #FFFFFF;
   border: 1px solid #E5E5E5;
   box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
-  border-radius: 20px;
+  border-radius: 8px;
   font-weight: 600;
   color: #171718;
   transition: all 0.6s cubic-bezier(0.15, 0.83, 0.66, 1);
@@ -156,8 +156,8 @@ p.label {
 }
 
 .results .entry .desc span {
-  font-weight: bold;
-  line-height: 10px;
+  line-height: 13px;
+  font-size: small;
   color: #72767c;
 }
 
