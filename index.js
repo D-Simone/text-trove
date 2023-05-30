@@ -85,6 +85,12 @@ function saveTemplate(template) {
   const contentSpan = document.createElement('span');
   contentSpan.textContent = sanitizeHTML(template.content);
 
+  // Truncate the text and add an ellipsis after a certain number of characters
+  const maxLength = 210; // Specify the maximum number of characters
+  if (contentSpan.textContent.length > maxLength) {
+    contentSpan.textContent = contentSpan.textContent.slice(0, maxLength) + '...';
+  }
+
   descElement.appendChild(titleLabel);
   descElement.appendChild(contentSpan);
 
@@ -101,6 +107,7 @@ function saveTemplate(template) {
 
   resultsContainer.appendChild(templateElement);
 }
+
 
 // Function to sanitize HTML content
 function sanitizeHTML(html) {
@@ -152,9 +159,6 @@ function searchTemplates() {
   });
 }
 
-
-
-
 function addDefaultTemplate(template) {
   // Add the template to the results container
   const resultsContainer = document.getElementById('resultsContainer');
@@ -166,7 +170,11 @@ function addDefaultTemplate(template) {
   // Create the icon element
   const iconElement = document.createElement('div');
   iconElement.classList.add('icon');
-  iconElement.innerHTML = '<svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 48C141.1 48 48 141.1 48 256v40c0 13.3-10.7 24-24 24s-24-10.7-24-24V256C0 114.6 114.6 0 256 0S512 114.6 512 256V400.1c0 48.6-39.4 88-88.1 88L313.6 488c-8.3 14.3-23.8 24-41.6 24H240c-26.5 0-48-21.5-48-48s21.5-48 48-48h32c17.8 0 33.3 9.7 41.6 24l110.4 .1c22.1 0 40-17.9 40-40V256c0-114.9-93.1-208-208-208zM144 208h16c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H144c-35.3 0-64-28.7-64-64V272c0-35.3 28.7-64 64-64zm224 0c35.3 0 64 28.7 64 64v48c0 35.3-28.7 64-64 64H352c-17.7 0-32-14.3-32-32V240c0-17.7 14.3-32 32-32h16z"/></svg>';
+  iconElement.innerHTML = `<svg fill="none" viewBox="0 0 24 24" height="20" width="20">
+                              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M13 2H13.2727C16.5339 2 18.1645 2 19.2969 2.79784C19.6214 3.02643 19.9094 3.29752 20.1523 3.60289C21 4.66867 21 6.20336 21 9.27273V11.8182C21 14.7814 21 16.2629 20.5311 17.4462C19.7772 19.3486 18.1829 20.8491 16.1616 21.5586C14.9044 22 13.3302 22 10.1818 22C8.38275 22 7.48322 22 6.76478 21.7478C5.60979 21.3424 4.69875 20.4849 4.26796 19.3979C4 18.7217 4 17.8751 4 16.1818V12"></path>
+                              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M21 12C21 13.8409 19.5076 15.3333 17.6667 15.3333C17.0009 15.3333 16.216 15.2167 15.5686 15.3901C14.9935 15.5442 14.5442 15.9935 14.3901 16.5686C14.2167 17.216 14.3333 18.0009 14.3333 18.6667C14.3333 20.5076 12.8409 22 11 22"></path>
+                              <path stroke-linecap="round" stroke-width="2" stroke="#171718" d="M11 6L3 6M7 2V10"></path>
+                            </svg>`;
 
   // Create the description element
   const descElement = document.createElement('div');
@@ -176,7 +184,13 @@ function addDefaultTemplate(template) {
   titleLabel.textContent = template.title;
 
   const contentSpan = document.createElement('span');
-  contentSpan.textContent = template.content;
+  contentSpan.textContent = sanitizeHTML(template.content);
+
+  // Truncate the text and add an ellipsis after a certain number of characters
+  const maxLength = 210; // Specify the maximum number of characters
+  if (contentSpan.textContent.length > maxLength) {
+    contentSpan.textContent = contentSpan.textContent.slice(0, maxLength) + '...';
+  }
 
   descElement.appendChild(titleLabel);
   descElement.appendChild(contentSpan);
@@ -197,6 +211,7 @@ function addDefaultTemplate(template) {
   // Append the template element to the results container
   resultsContainer.appendChild(templateElement);
 }
+
 
 // Function to display the current clipboard content
 function displayClipboardContent() {
