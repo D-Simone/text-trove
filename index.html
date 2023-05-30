@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,52 +9,46 @@
   <!-- Custom CSS -->
   <link href="/css/style.css" rel="stylesheet">
 </head>
-
 <body>
   <div class="container">
-  <!-- Template Form -->
-  <div class="card">
-    <form id="templateForm" novalidate>
-      <div>
-        <label for="templateTitle">Title:</label>
-        <input type="text" id="templateTitle" required>
-      </div>
-      <div>
-        
-        <div id="editor"></div>
-        <textarea id="templateContent" name="templateContent"></textarea>
-      </div>
-      <div class="categories">
-        <button type="submit">Save Template</button>
-        <button id="displayClipboardButton">Display Clipboard</button>
-      </div>
-    </form>
-  </div>
+    <!-- Template Form -->
+    <div class="card">
+      <form id="templateForm" novalidate>
+        <div>
+          <label for="templateTitle">Title:</label>
+          <input type="text" id="templateTitle" required>
+        </div>
+        <div>
 
+          <div id="editor"></div>
+          <textarea id="templateContent" name="templateContent"></textarea>
+        </div>
+        <div class="categories">
+          <button type="submit">Save Template</button>
+          <button id="displayClipboardButton">Display Clipboard</button>
+        </div>
+      </form>
+    </div>
     <!-- Template Table -->
-    
-  <div class="card">
-    
-    <div class="search-container">
-      <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M17.5 17.5L22 22">
-        </path>
-        <path stroke-linejoin="round" stroke-width="2" stroke="#171718"
-              d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z">
-        </path>
-      </svg>
-      <input id="searchInput" placeholder="Search for a quick action" type="search">
+    <div class="card">
+      <div class="search-container">
+        <svg fill="none" viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M17.5 17.5L22 22">
+          </path>
+          <path stroke-linejoin="round" stroke-width="2" stroke="#171718"
+            d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z">
+          </path>
+        </svg>
+        <input id="searchInput" placeholder="Search for a quick action" type="search">
+      </div>
+      <div class="results">
+        <p class="label">Templates</p>
+        <div id="resultsContainer"></div>
+      </div>
     </div>
-    
-    <div class="results">
-      <p class="label">Templates</p>
-      <div id="resultsContainer"></div>
-    </div>
-</div>
     <!-- Vendor JS -->
     <script src="vendor/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
     <!-- Custom JS -->
     <script src="index.js"></script>
 </body>
-
 </html>
