@@ -17,8 +17,8 @@ function initEditor() {
     menubar: false,
     statusbar: false,
     width: '100%',
-    height: 300,
-    content_css: 'path/to/content.min.css',
+    height: '75vh',
+    content_css: '../vendor/tinymce/js/tinymce/skins/content/default/content.min.css',
     placeholder: 'Enter your content here...',
     setup: function (editor) {
       editorInstance = editor; // Assign the editor instance to the variable
@@ -68,13 +68,9 @@ function saveTemplate(template) {
   const templateElement = document.createElement('div');
   templateElement.classList.add('entry');
 
+  // Create the icon element
   const iconElement = document.createElement('div');
   iconElement.classList.add('icon');
-  iconElement.innerHTML = `<svg fill="none" viewBox="0 0 24 24" height="20" width="20">
-                              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M13 2H13.2727C16.5339 2 18.1645 2 19.2969 2.79784C19.6214 3.02643 19.9094 3.29752 20.1523 3.60289C21 4.66867 21 6.20336 21 9.27273V11.8182C21 14.7814 21 16.2629 20.5311 17.4462C19.7772 19.3486 18.1829 20.8491 16.1616 21.5586C14.9044 22 13.3302 22 10.1818 22C8.38275 22 7.48322 22 6.76478 21.7478C5.60979 21.3424 4.69875 20.4849 4.26796 19.3979C4 18.7217 4 17.8751 4 16.1818V12"></path>
-                              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M21 12C21 13.8409 19.5076 15.3333 17.6667 15.3333C17.0009 15.3333 16.216 15.2167 15.5686 15.3901C14.9935 15.5442 14.5442 15.9935 14.3901 16.5686C14.2167 17.216 14.3333 18.0009 14.3333 18.6667C14.3333 20.5076 12.8409 22 11 22"></path>
-                              <path stroke-linecap="round" stroke-width="2" stroke="#171718" d="M11 6L3 6M7 2V10"></path>
-                            </svg>`;
 
   const descElement = document.createElement('div');
   descElement.classList.add('desc');
@@ -86,7 +82,7 @@ function saveTemplate(template) {
   contentSpan.textContent = sanitizeHTML(template.content);
 
   // Truncate the text and add an ellipsis after a certain number of characters
-  const maxLength = 210; // Specify the maximum number of characters
+  const maxLength = 300; // Specify the maximum number of characters
   if (contentSpan.textContent.length > maxLength) {
     contentSpan.textContent = contentSpan.textContent.slice(0, maxLength) + '...';
   }
@@ -94,17 +90,50 @@ function saveTemplate(template) {
   descElement.appendChild(titleLabel);
   descElement.appendChild(contentSpan);
 
-  const badgeButton = document.createElement('button');
-  badgeButton.classList.add('badge');
-  badgeButton.textContent = 'Copy';
-  badgeButton.addEventListener('click', () => {
+  // Create the badges container element
+  const badgesContainer = document.createElement('div');
+  badgesContainer.classList.add('badges-container');
+  badgesContainer.classList.add('flex-row'); // Add flex-row class for horizontal alignment
+
+  // Create the copy badge button element
+  const copyBadgeButton = document.createElement('button');
+  copyBadgeButton.classList.add('badge');
+  copyBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 384H256c-35.3 0-64-28.7-64-64V64c0-35.3 28.7-64 64-64H396.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V320c0 35.3-28.7 64-64 64zM64 128h96v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H256c8.8 0 16-7.2 16-16V416h48v32c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192c0-35.3 28.7-64 64-64z"/></svg>`;
+
+  copyBadgeButton.addEventListener('click', () => {
     copyTemplate(template.content);
   });
 
+  // Create the edit badge button element
+  const editBadgeButton = document.createElement('button');
+  editBadgeButton.classList.add('badge');
+  editBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>`;
+
+  editBadgeButton.addEventListener('click', () => {
+    // Handle edit functionality here
+  });
+
+  // Create the delete badge button element
+  const deleteBadgeButton = document.createElement('button');
+  deleteBadgeButton.classList.add('badge');
+  deleteBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>`;
+
+  deleteBadgeButton.addEventListener('click', () => {
+    // Remove the template element from the DOM
+    templateElement.remove();
+  });
+
+  // Append the badges to the badges container
+  badgesContainer.appendChild(copyBadgeButton);
+  badgesContainer.appendChild(editBadgeButton);
+  badgesContainer.appendChild(deleteBadgeButton);
+
+  // Append the badges container to the template element
   templateElement.appendChild(iconElement);
   templateElement.appendChild(descElement);
-  templateElement.appendChild(badgeButton);
+  templateElement.appendChild(badgesContainer);
 
+  // Append the template element to the results container
   resultsContainer.appendChild(templateElement);
 }
 
@@ -152,7 +181,7 @@ function searchTemplates() {
     const content = contentSpan.textContent.toLowerCase();
 
     if (title.includes(searchTerm) || content.includes(searchTerm)) {
-      templateElement.style.display = 'grid'; // Show the template element
+      templateElement.style.display = 'flex'; // Show the template element
     } else {
       templateElement.style.display = 'none'; // Hide the template element
     }
@@ -170,11 +199,6 @@ function addDefaultTemplate(template) {
   // Create the icon element
   const iconElement = document.createElement('div');
   iconElement.classList.add('icon');
-  iconElement.innerHTML = `<svg fill="none" viewBox="0 0 24 24" height="20" width="20">
-                              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M13 2H13.2727C16.5339 2 18.1645 2 19.2969 2.79784C19.6214 3.02643 19.9094 3.29752 20.1523 3.60289C21 4.66867 21 6.20336 21 9.27273V11.8182C21 14.7814 21 16.2629 20.5311 17.4462C19.7772 19.3486 18.1829 20.8491 16.1616 21.5586C14.9044 22 13.3302 22 10.1818 22C8.38275 22 7.48322 22 6.76478 21.7478C5.60979 21.3424 4.69875 20.4849 4.26796 19.3979C4 18.7217 4 17.8751 4 16.1818V12"></path>
-                              <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#171718" d="M21 12C21 13.8409 19.5076 15.3333 17.6667 15.3333C17.0009 15.3333 16.216 15.2167 15.5686 15.3901C14.9935 15.5442 14.5442 15.9935 14.3901 16.5686C14.2167 17.216 14.3333 18.0009 14.3333 18.6667C14.3333 20.5076 12.8409 22 11 22"></path>
-                              <path stroke-linecap="round" stroke-width="2" stroke="#171718" d="M11 6L3 6M7 2V10"></path>
-                            </svg>`;
 
   // Create the description element
   const descElement = document.createElement('div');
@@ -187,7 +211,7 @@ function addDefaultTemplate(template) {
   contentSpan.textContent = sanitizeHTML(template.content);
 
   // Truncate the text and add an ellipsis after a certain number of characters
-  const maxLength = 210; // Specify the maximum number of characters
+  const maxLength = 300; // Specify the maximum number of characters
   if (contentSpan.textContent.length > maxLength) {
     contentSpan.textContent = contentSpan.textContent.slice(0, maxLength) + '...';
   }
@@ -195,23 +219,52 @@ function addDefaultTemplate(template) {
   descElement.appendChild(titleLabel);
   descElement.appendChild(contentSpan);
 
-  // Create the badge button element
-  const badgeButton = document.createElement('button');
-  badgeButton.classList.add('badge');
-  badgeButton.textContent = 'Copy';
-  badgeButton.addEventListener('click', () => {
+  // Create the badges container element
+  const badgesContainer = document.createElement('div');
+  badgesContainer.classList.add('badges-container');
+  badgesContainer.classList.add('flex-row'); // Add flex-row class for horizontal alignment
+
+  // Create the copy badge button element
+  const copyBadgeButton = document.createElement('button');
+  copyBadgeButton.classList.add('badge');
+  copyBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 384H256c-35.3 0-64-28.7-64-64V64c0-35.3 28.7-64 64-64H396.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V320c0 35.3-28.7 64-64 64zM64 128h96v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H256c8.8 0 16-7.2 16-16V416h48v32c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192c0-35.3 28.7-64 64-64z"/></svg>`;
+
+  copyBadgeButton.addEventListener('click', () => {
     copyTemplate(template.content);
   });
 
-  // Append the elements to the template element
+  // Create the edit badge button element
+  const editBadgeButton = document.createElement('button');
+  editBadgeButton.classList.add('badge');
+  editBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>`;
+
+  editBadgeButton.addEventListener('click', () => {
+    // Handle edit functionality here
+  });
+
+  // Create the delete badge button element
+  const deleteBadgeButton = document.createElement('button');
+  deleteBadgeButton.classList.add('badge');
+  deleteBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>`;
+
+  deleteBadgeButton.addEventListener('click', () => {
+    // Remove the template element from the DOM
+    templateElement.remove();
+  });
+
+  // Append the badges to the badges container
+  badgesContainer.appendChild(copyBadgeButton);
+  badgesContainer.appendChild(editBadgeButton);
+  badgesContainer.appendChild(deleteBadgeButton);
+
+  // Append the badges container to the template element
   templateElement.appendChild(iconElement);
   templateElement.appendChild(descElement);
-  templateElement.appendChild(badgeButton);
+  templateElement.appendChild(badgesContainer);
 
   // Append the template element to the results container
   resultsContainer.appendChild(templateElement);
 }
-
 
 // Function to display the current clipboard content
 function displayClipboardContent() {
@@ -256,15 +309,6 @@ address book
 <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M384 48c8.8 0 16 7.2 16 16V448c0 8.8-7.2 16-16 16H96c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H384zM96 0C60.7 0 32 28.7 32 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H96zM240 256a64 64 0 1 0 0-128 64 64 0 1 0 0 128zm-32 32c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80H208zM512 80c0-8.8-7.2-16-16-16s-16 7.2-16 16v64c0 8.8 7.2 16 16 16s16-7.2 16-16V80zM496 192c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm16 144c0-8.8-7.2-16-16-16s-16 7.2-16 16v64c0 8.8 7.2 16 16 16s16-7.2 16-16V336z"/></svg>
 list
 <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 144a48 48 0 1 0 0-96 48 48 0 1 0 0 96zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zM64 464a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm48-208a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"/></svg>
-
-copy
-<svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 384H256c-35.3 0-64-28.7-64-64V64c0-35.3 28.7-64 64-64H396.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V320c0 35.3-28.7 64-64 64zM64 128h96v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H256c8.8 0 16-7.2 16-16V416h48v32c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192c0-35.3 28.7-64 64-64z"/></svg>
-save icon
-<svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M48 96V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V170.5c0-4.2-1.7-8.3-4.7-11.3l33.9-33.9c12 12 18.7 28.3 18.7 45.3V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96C0 60.7 28.7 32 64 32H309.5c17 0 33.3 6.7 45.3 18.7l74.5 74.5-33.9 33.9L320.8 84.7c-.3-.3-.5-.5-.8-.8V184c0 13.3-10.7 24-24 24H104c-13.3 0-24-10.7-24-24V80H64c-8.8 0-16 7.2-16 16zm80-16v80H272V80H128zm32 240a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/></svg>
-trash
-<svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-pen/edit
-<svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
 
 warning
 <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>

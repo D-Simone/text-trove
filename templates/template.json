@@ -13,6 +13,11 @@
       "title": "Asking for More Information",
       "content": "Hello [Customer Name], Thank you for submitting your query ([Ticket ID]). We need your [Data Needed] to proceed with your request. You can update the information by replying to this email or by calling us at [Contact Info]. Once we get this information, we will be able to resolve your query soon. Thanks,[Agent Name][Company Name]",
       "default": true
+    },
+    {
+      "title": "Waiting in Queue",
+      "content": "Sorry! All our agents are busy at this moment. Please wait for [Queue Time], while our representative will join you shortly.",
+      "default": true
     }
   ]
   

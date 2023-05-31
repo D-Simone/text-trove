@@ -2,16 +2,36 @@
 
 body {
   font-family: 'Montserrat', sans-serif;
-  background: #EEE;
+  background: #FFD93D;
   margin: 20px;
 }
 
 input {
-  padding: 8px 15px;
-  background: #FFFFFF;
+  font-family: 'Montserrat', sans-serif;
+  padding: 10px 15px;
+  background: #FFF;
   border: 1px solid #E5E5E5;
-  box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
-  border-radius: 20px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 0px;
+  font-size: 14px;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+.inputIcon {
+  min-width: 20px;
+  background: #FFD93D;
+  padding: 10px 15px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 7px;
+  margin-right: -10px;
 }
 
 .container {
@@ -22,10 +42,17 @@ input {
 
 .card {
   width: -webkit-fill-available;
-  background: rgb(255, 255, 255);
+  background: #FFF;
   box-shadow: rgba(0, 0, 0, 0.01) 0px 187px 75px, rgba(0, 0, 0, 0.05) 0px 105px 63px, rgba(0, 0, 0, 0.09) 0px 47px 47px, rgba(0, 0, 0, 0.1) 0px 12px 26px, rgba(0, 0, 0, 0.1) 0px 0px 0px;
   border-radius: 10px;
   padding: 20px;
+}
+
+.saveTemplate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
 }
 
 .search-container {
@@ -33,36 +60,29 @@ input {
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
-  padding: 0 20px;
+  padding: 20px 20px 10px 20px;
 }
 
 .search-container input {
   width: 100%;
-  height: 50px;
-  border: 0;
-  outline: none;
-  font-size: 13px;
 }
 
 .categories {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 15px;
+  gap: 10px;
 }
 
 .categories button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 15px;
+  padding: 10px;
   margin: 20px 0px;
-  background: #FFFFFF;
-  border: 1px solid #E5E5E5;
-  box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+  background: #FFD93D;
+  border: 0px;
   border-radius: 8px;
-  font-weight: 600;
-  color: #171718;
   transition: all 0.6s cubic-bezier(0.15, 0.83, 0.66, 1);
   cursor: pointer;
 }
@@ -76,6 +96,14 @@ input {
   flex-direction: column;
   gap: 10px;
 }
+
+#resultsContainer {
+  height: 75vh;
+  /* Set the desired height */
+  overflow: auto;
+  /* Enable scrollbar when content exceeds the container height */
+}
+
 
 .results hr {
   width: 100%;
@@ -94,32 +122,15 @@ p.label {
 }
 
 .results .entry {
-  display: grid;
-  grid-template-columns: 40px 1fr 40px;
+  display: flex;
   gap: 12px;
-  padding: 5px 20px;
+  padding: 10px 20px;
   transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
 
 .results .entry:hover {
-  background-color: #F5F8FE;
-}
-
-.results .results-list .entry:hover .icon {
-  background-color: #1763fa;
-}
-
-.results .results-list .entry:hover .icon svg path,
-.results .results-list .entry:hover .icon svg circle {
-  stroke: #ffffff;
-}
-
-.results .results-list .entry:hover label {
-  color: #1763fa;
-}
-
-.results .results-list .entry:hover span {
-  color: #7ba0eb;
+  background-color: #EEE;
+  border-radius: 7px;
 }
 
 .results .results-list {
@@ -132,12 +143,8 @@ p.label {
 }
 
 .results .entry .icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ECECEC;
+  min-width: 10px;
+  background-color: #FFD93D;
   border-radius: 7px;
   transition: all 0.2s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
@@ -147,6 +154,7 @@ p.label {
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  width: 100%;
 }
 
 .results .entry .desc label {
@@ -165,18 +173,24 @@ p.label {
 
 .results .entry .badge {
   width: 40px;
-  height: 24px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
-  background: #DDFFDE;
-  border: 1px solid #08581d0e;
+  background: #FFD93D;
+  border: none;
   border-radius: 7px;
-  font-weight: 700;
-  font-size: 11px;
-  line-height: 13px;
-  text-align: center;
-  color: #08581D;
   cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+
+.badge:hover {
+  transform: scale(1.05) translateY(-3px);
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 }
