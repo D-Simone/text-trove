@@ -6,7 +6,8 @@ body {
   margin: 20px;
 }
 
-input {
+#searchInput,
+#templateTitle {
   font-family: 'Montserrat', sans-serif;
   padding: 10px 15px;
   background: #FFF;
@@ -19,7 +20,8 @@ input {
   width: 100%;
 }
 
-input:focus {
+#searchInput:focus,
+#templateTitle:focus {
   outline: none;
 }
 
@@ -88,7 +90,7 @@ input:focus {
 }
 
 .categories button:hover {
-  transform: scale(1.05) translateY(-3px);
+  animation: jello-horizontal 0.9s both;
 }
 
 .results {
@@ -185,11 +187,106 @@ p.label {
 }
 
 .badge:hover {
-  transform: scale(1.05) translateY(-3px);
+  animation: jello-horizontal 0.9s both;
 }
 
 .flex-row {
   display: flex;
   flex-direction: row;
   gap: 5px;
+}
+
+/* Hide the default checkbox */
+.containerbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.containerbox {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  animation: jello-horizontal 0.9s both;
+}
+
+.checkmark:hover {
+  animation: jello-horizontal 0.9s both;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  background: #FFD93D;
+  border-radius: 7px;
+  width: 40px;
+  height: 40px;
+}
+
+/* Show the checkmark when checked */
+.containerbox input:checked~.checkmark:after {
+  display: block;
+}
+
+/* Style the unchecked checkmark/indicator */
+.containerbox .checkmark:after {
+  width: 45%;
+  margin: auto;
+  position: fixed;
+  padding-top: 9px;
+  padding-left: 11px;
+  content: url(../img/html5.svg);
+}
+
+/* Style the checked checkmark/indicator */
+.containerbox input:checked~.checkmark:after {
+  width: 45% !important;
+  margin: auto;
+  position: fixed;
+  padding-top: 9px;
+  padding-left: 9px;
+  content: url(../img/paragraph.svg);
+}
+
+@keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
 }

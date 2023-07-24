@@ -33,10 +33,14 @@ function handleFormSubmit(event) {
   const titleInput = document.getElementById('templateTitle');
   const contentInput = editorInstance.getContent(); // Get the content from the TinyMCE editor
 
+  // Get the checkbox value for sanitization
+  const sanitizeHTMLCheckbox = document.getElementById('sanitizeHTML');
+  const shouldSanitizeHTML = sanitizeHTMLCheckbox.checked;
+
   // Create a new template object
   const template = {
     title: titleInput.value,
-    content: contentInput,
+    content: shouldSanitizeHTML ? sanitizeHTML(contentInput) : contentInput,
   };
 
   // Save the template to the server only if both title and content are not empty
@@ -156,9 +160,9 @@ function saveTemplate(template) {
 
   // Append the badges to the badges container
   badgesContainer.appendChild(copyBadgeButton);
-  badgesContainer.appendChild(editBadgeButton);
-  // Add the delete badge button only if the template is not default
+  // Add the delete and edit badge button only if the template is not default
   if (!template.is_default) {
+    badgesContainer.appendChild(editBadgeButton);
     badgesContainer.appendChild(deleteBadgeButton);
   }
 
