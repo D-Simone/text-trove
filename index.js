@@ -53,48 +53,51 @@ function handleFormSubmit(event) {
   const titleInput = document.getElementById('templateTitle');
   const contentInput = editorInstance.getContent();
 
-  // Get the sanitizeHTML toggle input element
-  const sanitizeHTMLToggle = document.getElementById('sanitizeHTML');
+  // Check if the event target is the "displayClipboardButton"
+  if (event.target.id !== 'displayClipboardButton') {
+    // Get the sanitizeHTML toggle input element
+    const sanitizeHTMLToggle = document.getElementById('sanitizeHTML');
 
-  // Check if the title and content fields are empty
-  if (!titleInput.value.trim() && !contentInput.trim()) {
-    toastr.error('Title and Content are required.');
-  } else if (!titleInput.value.trim() || !contentInput.trim()) {
-    // Show a warning toaster if either the title or content is empty
-    toastr.warning('Please fill in both Title and Content fields.');
-  } else {
-    // Create a new template object
-    const template = {
-      title: titleInput.value,
-      content: sanitizeHTMLToggle.checked ? sanitizeHTML(contentInput) : contentInput,
-    };
+    // Check if the title and content fields are empty
+    if (!titleInput.value.trim() && !contentInput.trim()) {
+      toastr.error('Title and Content are required.');
+    } else if (!titleInput.value.trim() || !contentInput.trim()) {
+      // Show a warning toaster if either the title or content is empty
+      toastr.warning('Please fill in both Title and Content fields.');
+    } else {
+      // Create a new template object
+      const template = {
+        title: titleInput.value,
+        content: sanitizeHTMLToggle.checked ? sanitizeHTML(contentInput) : contentInput,
+      };
 
-    // Save the template to the server only if both title and content are not empty
-    if (template.title.trim() !== '' && template.content.trim() !== '') {
-      // Send the template data to the server
-      fetch('http://localhost:3000/submit-template', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(template),
-      })
-        .then((response) => {
-          if (response.ok) {
-            // Clear the form inputs
-            titleInput.value = '';
-            editorInstance.setContent(''); // Clear the content of the TinyMCE editor
-
-            // Fetch templates immediately after saving a new one
-            fetchTemplates();
-
-            // Show the success toast
-            toastr.success('Template saved successfully.');
-          } else {
-            // Show the error toast
-            toastr.error('Failed to submit template. Please try again.');
-          }
+      // Save the template to the server only if both title and content are not empty
+      if (template.title.trim() !== '' && template.content.trim() !== '') {
+        // Send the template data to the server
+        fetch('http://localhost:3000/submit-template', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(template),
         })
+          .then((response) => {
+            if (response.ok) {
+              // Clear the form inputs
+              titleInput.value = '';
+              editorInstance.setContent(''); // Clear the content of the TinyMCE editor
+
+              // Fetch templates immediately after saving a new one
+              fetchTemplates();
+
+              // Show the success toast
+              toastr.success('Template saved successfully.');
+            } else {
+              // Show the error toast
+              toastr.error('Failed to submit template. Please try again.');
+            }
+          });
+      }
     }
   }
 }
@@ -117,7 +120,6 @@ function saveTemplate(template) {
   const templateElement = document.createElement('div');
   templateElement.classList.add('entry');
 
-  // Create the icon element
   const iconElement = document.createElement('div');
   iconElement.classList.add('icon');
 
@@ -261,6 +263,21 @@ function fetchTemplates() {
     });
 }
 
+// Function to display the content of the clipboard
+function displayClipboardContent(event) {
+  event.preventDefault(); // Prevent default form submission behavior
+
+  navigator.clipboard.readText()
+    .then((text) => {
+      // Do something with the clipboard content (e.g., display it in an alert or console.log)
+      alert("Clipboard content: " + text);
+    })
+    .catch((error) => {
+      console.error('Failed to read clipboard content:', error);
+      alert('Failed to read clipboard content.');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize the TinyMCE editor
   initEditor();
@@ -272,6 +289,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add event listener to the search input
   const searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('input', searchTemplates);
+
+  // Add click event listener to the button
+  const displayClipboardButton = document.getElementById('displayClipboardButton');
+  displayClipboardButton.addEventListener('click', displayClipboardContent);
 
   // Add event listener to the delete badge button
   const resultsContainer = document.getElementById('resultsContainer');
