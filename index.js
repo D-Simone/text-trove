@@ -1,4 +1,26 @@
+import toastr from 'toastr'; // If the import doesn't work, try using './node_modules/toastr/toastr.js' instead
+import 'toastr/build/toastr.css';
+
+toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": true,
+  "positionClass": "toast-bottom-center",
+  "preventDuplicates": true,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "slideDown",
+  "hideMethod": "fadeOut"
+}
+
 let editorInstance; // Declare a variable to store the editor instance
+let shouldSanitizeHTML = true; // Initialize with sanitization turned on by default
 
 // Function to initialize the TinyMCE editor
 function initEditor() {
@@ -33,10 +55,6 @@ function handleFormSubmit(event) {
   const titleInput = document.getElementById('templateTitle');
   const contentInput = editorInstance.getContent(); // Get the content from the TinyMCE editor
 
-  // Get the checkbox value for sanitization
-  const sanitizeHTMLCheckbox = document.getElementById('sanitizeHTML');
-  const shouldSanitizeHTML = sanitizeHTMLCheckbox.checked;
-
   // Create a new template object
   const template = {
     title: titleInput.value,
@@ -53,23 +71,24 @@ function handleFormSubmit(event) {
       },
       body: JSON.stringify(template),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Clear the form inputs
-        titleInput.value = '';
-        editorInstance.setContent(''); // Clear the content of the TinyMCE editor
+      .then((response) => {
+        if (response.ok) {
+          // Clear the form inputs
+          titleInput.value = '';
+          editorInstance.setContent(''); // Clear the content of the TinyMCE editor
 
-        // Fetch templates immediately after saving a new one
-        fetchTemplates();
+          // Fetch templates immediately after saving a new one
+          fetchTemplates();
+
+          // Show the success toast
+          toastr.success('Template saved successfully.');
+        } else {
+          // Show the error toast
+          toastr.error('Failed to submit template. Please try again.');
+        }
       })
-      .catch((error) => {
-        console.error('Failed to submit template:', error);
-        alert('Failed to submit template. Please try again.');
-      });
   }
 }
-
 
 // Function to copy the template content to the clipboard
 function copyTemplate(content) {

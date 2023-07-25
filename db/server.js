@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const port = 3000;
 const { Pool } = require('pg');
+const path = require('path');
 
 // Create a new pool with the appropriate credentials
 const pool = new Pool({
@@ -15,9 +16,10 @@ const pool = new Pool({
 
 // Enable CORS
 app.use(cors());
-
 // Parse JSON body
 app.use(express.json());
+// Serve static files (including toastr)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Get templates from the database
 app.get('/get-templates', async (req, res) => {
