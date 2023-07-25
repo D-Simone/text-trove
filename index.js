@@ -7,7 +7,7 @@ toastr.options = {
   "newestOnTop": false,
   "progressBar": true,
   "positionClass": "toast-bottom-center",
-  "preventDuplicates": true,
+  "preventDuplicates": false,
   "onclick": null,
   "showDuration": "300",
   "hideDuration": "1000",
@@ -20,7 +20,6 @@ toastr.options = {
 }
 
 let editorInstance; // Declare a variable to store the editor instance
-let shouldSanitizeHTML = true; // Initialize with sanitization turned on by default
 
 // Function to initialize the TinyMCE editor
 function initEditor() {
@@ -51,42 +50,52 @@ function initEditor() {
 function handleFormSubmit(event) {
   event.preventDefault();
 
-  // Get the input values from the form
   const titleInput = document.getElementById('templateTitle');
-  const contentInput = editorInstance.getContent(); // Get the content from the TinyMCE editor
+  const contentInput = editorInstance.getContent();
 
-  // Create a new template object
-  const template = {
-    title: titleInput.value,
-    content: shouldSanitizeHTML ? sanitizeHTML(contentInput) : contentInput,
-  };
+  // Get the sanitizeHTML toggle input element
+  const sanitizeHTMLToggle = document.getElementById('sanitizeHTML');
 
-  // Save the template to the server only if both title and content are not empty
-  if (template.title.trim() !== '' && template.content.trim() !== '') {
-    // Send the template data to the server
-    fetch('http://localhost:3000/submit-template', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(template),
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Clear the form inputs
-          titleInput.value = '';
-          editorInstance.setContent(''); // Clear the content of the TinyMCE editor
+  // Check if the title and content fields are empty
+  if (!titleInput.value.trim() && !contentInput.trim()) {
+    toastr.error('Title and Content are required.');
+  } else if (!titleInput.value.trim() || !contentInput.trim()) {
+    // Show a warning toaster if either the title or content is empty
+    toastr.warning('Please fill in both Title and Content fields.');
+  } else {
+    // Create a new template object
+    const template = {
+      title: titleInput.value,
+      content: sanitizeHTMLToggle.checked ? sanitizeHTML(contentInput) : contentInput,
+    };
 
-          // Fetch templates immediately after saving a new one
-          fetchTemplates();
-
-          // Show the success toast
-          toastr.success('Template saved successfully.');
-        } else {
-          // Show the error toast
-          toastr.error('Failed to submit template. Please try again.');
-        }
+    // Save the template to the server only if both title and content are not empty
+    if (template.title.trim() !== '' && template.content.trim() !== '') {
+      // Send the template data to the server
+      fetch('http://localhost:3000/submit-template', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(template),
       })
+        .then((response) => {
+          if (response.ok) {
+            // Clear the form inputs
+            titleInput.value = '';
+            editorInstance.setContent(''); // Clear the content of the TinyMCE editor
+
+            // Fetch templates immediately after saving a new one
+            fetchTemplates();
+
+            // Show the success toast
+            toastr.success('Template saved successfully.');
+          } else {
+            // Show the error toast
+            toastr.error('Failed to submit template. Please try again.');
+          }
+        })
+    }
   }
 }
 
@@ -139,9 +148,9 @@ function saveTemplate(template) {
   const copyBadgeButton = document.createElement('button');
   copyBadgeButton.classList.add('badge');
   copyBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M448 384H256c-35.3 0-64-28.7-64-64V64c0-35.3 28.7-64 64-64H396.1c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9V320c0 35.3-28.7 64-64 64zM64 128h96v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H256c8.8 0 16-7.2 16-16V416h48v32c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192c0-35.3 28.7-64 64-64z"/></svg>`;
-
   copyBadgeButton.addEventListener('click', () => {
     copyTemplate(template.content);
+    toastr.info('Template content copied to clipboard.');
   });
 
   // Create the edit badge button element
@@ -157,10 +166,10 @@ function saveTemplate(template) {
   const deleteBadgeButton = document.createElement('button');
   deleteBadgeButton.classList.add('badge', 'delete-button');
   deleteBadgeButton.innerHTML = `<svg fill="#000" height="15" width="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>`;
-
   deleteBadgeButton.addEventListener('click', () => {
     // Check if the template is not default before deleting
     if (!template.is_default) {
+      const title = templateElement.querySelector('.desc label').textContent;
       // Send a request to delete the template from the server
       fetch(`http://localhost:3000/delete-template/${template.id}`, {
         method: 'DELETE',
@@ -169,6 +178,8 @@ function saveTemplate(template) {
         .then((data) => {
           console.log('Template deleted successfully:', data);
           templateElement.remove(); // Remove the template element from the DOM
+          // Show the success toast
+          toastr.success(`Template "${title}" deleted successfully.`);
         })
         .catch((error) => {
           console.error('Failed to delete template:', error);
@@ -200,8 +211,6 @@ function sanitizeHTML(html) {
   tempElement.innerHTML = html;
   return tempElement.textContent || tempElement.innerText || '';
 }
-
-let templatesData = []; // Array to store the original templates data
 
 function searchTemplates() {
   const searchInput = document.getElementById('searchInput');
