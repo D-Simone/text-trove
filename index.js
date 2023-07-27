@@ -263,20 +263,42 @@ function fetchTemplates() {
     });
 }
 
-// Function to display the content of the clipboard
-function displayClipboardContent(event) {
+// Function to display the clipboard content as a modal
+function displayClipboardContentModal() {
   event.preventDefault(); // Prevent default form submission behavior
-
-  navigator.clipboard.readText()
+  
+  navigator.clipboard
+    .readText()
     .then((text) => {
-      // Do something with the clipboard content (e.g., display it in an alert or console.log)
-      alert("Clipboard content: " + text);
+      // Update the textarea in the modal with clipboard content
+      const clipboardTextArea = document.getElementById('clipboardContent');
+      clipboardTextArea.value = text;
+
+      // Show the modal
+      const modal = document.getElementById('clipboardModal');
+      modal.style.display = 'block';
     })
     .catch((error) => {
       console.error('Failed to read clipboard content:', error);
       alert('Failed to read clipboard content.');
     });
 }
+
+// Close the modal when the close button is clicked
+document.getElementById('clipboardModal').addEventListener('click', (event) => {
+  if (event.target.classList.contains('close')) {
+    const modal = document.getElementById('clipboardModal');
+    modal.style.display = 'none';
+  }
+});
+
+// Close the modal when clicking outside the modal content
+window.addEventListener('click', (event) => {
+  const modal = document.getElementById('clipboardModal');
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize the TinyMCE editor
@@ -290,9 +312,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('input', searchTemplates);
 
-  // Add click event listener to the button
+  // Add click event listener to the button to display clipboard content as a modal
   const displayClipboardButton = document.getElementById('displayClipboardButton');
-  displayClipboardButton.addEventListener('click', displayClipboardContent);
+  displayClipboardButton.addEventListener('click', () => {
+    displayClipboardContentModal(); // Call the function without triggering the toaster
+  });
 
   // Add event listener to the delete badge button
   const resultsContainer = document.getElementById('resultsContainer');
